@@ -1,0 +1,10 @@
+aws dynamodb --endpoint-url http://localhost:8000 create-table --table-name customer --attribute-definitions AttributeName=customerId,AttributeType=S --key-schema AttributeName=customerId,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+
+aws dynamodb --endpoint-url http://localhost:8000 list-tables
+
+aws dynamodb --endpoint-url http://localhost:8000 put-item --table-name customer --item file:/home/felipe/docker/dynamodb/payload.json --return-consumed-capacity TOTAL
+
+aws dynamodb put-item --table-name customer --item '{"customerId": {"S": "abcd"}, "payload": {"S": "felipe"}}' --return-consumed-capacity TOTAL
+
+docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb
+
